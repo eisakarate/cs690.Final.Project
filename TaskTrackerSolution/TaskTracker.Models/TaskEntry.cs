@@ -2,7 +2,29 @@ namespace TaskTracker.Models;
 
 public class TaskEntry
 {
-    public TaskEntry(int entryid, string title, )
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="entryid"></param>
+    /// <param name="title"></param>
+    /// <param name="status"></param>
+    /// <param name="priority"></param>
+    /// <param name="dueDate"></param>
+    /// <param name="description"></param>
+    /// <param name="project"></param>
+    /// <param name="material"></param>
+    public TaskEntry(int entryId, string title, TaskEntryStatus status, TaskEntryPriority priority, DateTime dueDate, string description, string project, string material )
+    {
+        EntryId = entryId;
+        Title = title;
+        Status = status;
+        Prioirty = priority;
+        DueDate = dueDate;
+        Description = description;
+        Project = project;
+        material = Material;
+    }
+
     public int EntryId{get; private set;}
     public string Title {get; private set;}
 
