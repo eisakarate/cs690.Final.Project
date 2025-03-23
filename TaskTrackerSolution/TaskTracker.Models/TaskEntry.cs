@@ -2,6 +2,7 @@ namespace TaskTracker.Models;
 
 public class TaskEntry
 {
+    public TaskEntry(int entryid, string title, )
     public int EntryId{get; private set;}
     public string Title {get; private set;}
 
