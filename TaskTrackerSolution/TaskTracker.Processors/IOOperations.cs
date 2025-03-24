@@ -7,10 +7,10 @@ namespace TaskTracker.Processors;
 public static class IOOperationsHelper
 {
     public static string GetUserModelFileName(this UserModel userModel)
-        => $"{userModel.UserName}.json";
+        => $"{userModel.UserName}_todos.txt";
 
     public static string GetUserModelFileNameFromUserName(this string userName)
-        => $"{userName}.json";
+        => $"{userName}_todos.txt";
 }
 
 public class IOOperations
