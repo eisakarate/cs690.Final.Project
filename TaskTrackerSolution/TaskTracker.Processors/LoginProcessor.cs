@@ -5,7 +5,7 @@ namespace TaskTracker.Processors;
 public static class LoginProcessor
 {
     //User Model
-    public static UserModel CurrentUser;
+    public static UserModel? CurrentUser;
 
     public static void Login(string userName)
     {
@@ -29,6 +29,6 @@ public static class LoginProcessor
         IOOperations.SaveUserModel(CurrentUser);
 
         //clear the current user model, add an empty class
-        CurrentUser = new UserModel();
+        CurrentUser = null;// new UserModel();
     }
 }

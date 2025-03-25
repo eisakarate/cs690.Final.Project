@@ -50,7 +50,7 @@ public class LoginProcessorTest
         //log out
         LoginProcessor.LogOut();
         
-        if(LoginProcessor.CurrentUser.UserName == "")
+        if(LoginProcessor.CurrentUser != null)
             Assert.Fail("User Model not cleared");
     }
     [Fact]
@@ -74,8 +74,8 @@ public class LoginProcessorTest
 
         //log back in 
         LoginProcessor.Login(testUserName);
-        
-        if(LoginProcessor.CurrentUser.UserName == "")
-            Assert.Fail("User Model not cleared");
+
+        if (LoginProcessor.CurrentUser == null)
+            Assert.Fail("User Model not created");
     }
 }
