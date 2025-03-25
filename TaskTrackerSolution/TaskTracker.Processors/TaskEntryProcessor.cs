@@ -10,7 +10,6 @@ public static class TaskEntryProcessor
     private static int getCurMaxEntryId(this UserModel userModel)
         => userModel.TaskEntries.Count > 0? userModel.TaskEntries.Max(x=>x.EntryId): 0;
 
-
     public static void DeleteTask(this UserModel userModel, int entryIdToDelete)
     {
         if(! userModel.TaskEntries.Any(x=>x.EntryId == entryIdToDelete))

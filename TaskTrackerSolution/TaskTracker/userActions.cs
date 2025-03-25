@@ -6,22 +6,30 @@ namespace TaskTracker;
 
 internal partial class userActions
 {
+    internal static void PressEnterToProceed()
+    {
+        AnsiConsole.Prompt(
+            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Press Enter to proceed:[/]")
+            .AllowEmpty()
+        );
+    }
+
     internal static void AddTask()
     {
         var title = AnsiConsole.Prompt(
-            new TextPrompt<string>("[green3]Enter a Task Title:[/]")
+            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Task Title:[/]")
         );
         var dueDateString = AnsiConsole.Prompt(
-            new TextPrompt<string>("[green3]Enter a Due Date (mm/dd/yyyy):[/]")
+            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Date (mm/dd/yyyy):[/]")
         );
         var dueTimeString = AnsiConsole.Prompt(
-            new TextPrompt<string>("[green3]Enter a Due Time (hh:mm):[/]")
+            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Time (hh:mm):[/]")
         );
         var priorityString = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-                .Title ("[green3]Please select a priority:[/]")
+                .Title ($"[{ConfigurationSettings.ConsoleTextColors.Green}]Please select a priority:[/]")
                 .PageSize(10)
-                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                .MoreChoicesText($"[{ConfigurationSettings.ConsoleTextColors.Grey}](Move up and down to reveal more options)[/]")
                 .AddChoices(new []{
                     "High",
                     "Mid",
@@ -42,15 +50,15 @@ internal partial class userActions
                 break;
         }
         var description = AnsiConsole.Prompt(
-            new TextPrompt<string>("[green3][[Optional]]Enter a Description (ok to leave blank):[/]")
+            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}][[Optional]]Enter a Description (ok to leave blank):[/]")
             .AllowEmpty()
         );
         var projectName = AnsiConsole.Prompt(
-            new TextPrompt<string>("[green3][[Optional]]Enter a Project Name (ok to leave blank):[/]")
+            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}][[Optional]]Enter a Project Name (ok to leave blank):[/]")
             .AllowEmpty()
         );
         var material = AnsiConsole.Prompt(
-            new TextPrompt<string>("[green3][[Optional]]Enter a Material List (ok to leave blank):[/]")
+            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}][[Optional]]Enter a Material List (ok to leave blank):[/]")
             .AllowEmpty()
         );
 
@@ -72,6 +80,8 @@ internal partial class userActions
         //save the data
         IOOperations.SaveUserModel(userModel: LoginProcessor.CurrentUser);
 
+        AnsiConsole.WriteLine("Done");
+        PressEnterToProceed();
         //display main landing page
         mainLandingPageProcessor.DisplayMainLandingPage();
     }
@@ -97,5 +107,7 @@ internal partial class userActions
 
         //terminate
         AnsiConsole.WriteLine("Good bye");
+
+        Environment.Exit(0);
     }
 }

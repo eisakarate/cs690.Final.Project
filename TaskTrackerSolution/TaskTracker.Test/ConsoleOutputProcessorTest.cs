@@ -23,4 +23,22 @@ public class ConsoleOutputProcessorTest
 
         var table = userModelToSave.AsSpecterTable();
     }
+
+    [Fact]
+    public void TestRenderEntryAsTable()
+    {
+        var tEntry = new TaskEntry(entryId: 1, 
+        title: "testing", 
+        status: TaskEntryStatus.New, 
+        priority: TaskEntryPriority.Low, 
+        dueDate: DateTime.Now,
+        description: "Test", 
+        project: "Unit Test", 
+        material: "Cheese");
+
+        var userModelToSave = new UserModel(){ UserName = "test"};
+        userModelToSave.TaskEntries.Add(tEntry);
+
+        var table = tEntry.AsSpecterTable();
+    }
 }

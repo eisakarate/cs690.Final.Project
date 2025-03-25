@@ -29,12 +29,47 @@ public class TaskEntry
 
     public int EntryId{get; set;}
     public string Title {get; set;} = "";
+    public string TitleForCLI{
+        get{
+            return Title;
+        }
+    }
 
     public TaskEntryStatus Status{get; set;}
+    public string StatusForCLI{
+        get{
+            switch(Status)
+            {
+                case TaskEntryStatus.New:
+                    return $"[white]New[/]";
+                case TaskEntryStatus.InProgress:
+                    return $"[gold1]In-Progress[/]";
+                case TaskEntryStatus.Done:
+                    return $"[green3]Done[/]";
+            }
+            return "";
+        }
+    }
 
     public TaskEntryPriority Prioirty {get; set;}
+    public string PriorityForCLI{
+        get{
+            switch(Prioirty)
+            {
+                case TaskEntryPriority.High:
+                    return $"[red1]High[/]";
+                case TaskEntryPriority.Mid:
+                    return $"[Yellow]Mid[/]";
+                case TaskEntryPriority.Low:
+                    return $"[Grey]Low[/]";
+            }
+            return "";
+        }
+    }
 
     public DateTime DueDate {get; set;}
+
+    public string DueDateAsString => $"{DueDate.ToShortDateString()} {DueDate.ToShortTimeString()}";
 
     public string Description {get; set;} = "";
 

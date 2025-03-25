@@ -1,1 +1,1 @@
-{"UserName":"tester2","TaskEntries":[{"EntryId":2,"Title":"NO delete","Status":0,"Prioirty":0,"DueDate":"2020-01-01T01:00:00","Description":"no","Project":"no","Material":"no","IsCompleted":false,"IsOverdue":false}]}
+{"UserName":"tester2","TaskEntries":[{"EntryId":2,"Title":"NO delete","TitleForCLI":"NO delete","Status":0,"StatusForCLI":"[white]New[/]","Prioirty":0,"PriorityForCLI":"[Grey]Low[/]","DueDate":"2020-01-01T01:00:00","DueDateAsString":"01/01/2020 01:00","Description":"no","Project":"no","Material":"no","IsCompleted":false,"IsOverdue":false}]}

@@ -30,13 +30,16 @@ class mainLandingPageProcessor
                 userActions.AddTask();
                 break;
             case "View Task Detail":
+                userActions.ViewTaskDetail();
                 break;
             case "Update Task":
+                userActions.UpdateTask();
                 break;
             case "Delete Task":
                 userActions.DeleteTask();
                 break;
             case "Purage Completed Tasks":
+                userActions.PurgeTasks();
                 break;
             case "Log out":
                 userActions.LogoutAction();
@@ -49,10 +52,17 @@ class mainLandingPageProcessor
         }
     }
 
-    internal static void DisplayMainLandingPage()
+    internal static void DisplayMainLandingPage(string messageToDisplayOnLoad = "")
     {
         if(LoginProcessor.CurrentUser == null)
             throw new NullReferenceException("User Model is null.");
+
+        AnsiConsole.Clear();
+        AnsiConsole.WriteLine("Main Page");
+        AnsiConsole.WriteLine($"User: {LoginProcessor.CurrentUser.UserName}");
+
+        if(messageToDisplayOnLoad.Length > 0)
+            AnsiConsole.Write($"[{ConfigurationSettings.ConsoleTextColors.Gold}]{messageToDisplayOnLoad}[]/");
 
         //show status
         var tableToShow = LoginProcessor.CurrentUser.AsSpecterTable();
