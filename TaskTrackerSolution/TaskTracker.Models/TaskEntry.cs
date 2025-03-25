@@ -2,6 +2,8 @@ namespace TaskTracker.Models;
 
 public class TaskEntry
 {
+    public TaskEntry() { }
+
     /// <summary>
     /// Constructor
     /// </summary>
@@ -25,8 +27,8 @@ public class TaskEntry
         Material = material;
     }
 
-    public int EntryId{get; private set;}
-    public string Title {get; private set;}
+    public int EntryId{get; set;}
+    public string Title {get; set;}
 
     public TaskEntryStatus Status{get; set;}
 
