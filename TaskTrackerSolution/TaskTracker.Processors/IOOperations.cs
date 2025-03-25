@@ -29,7 +29,20 @@ public class IOOperations
         //write the JSON
         fs.Write(json);
     }
+    private static void createBlackUserModelFile(string userName)
+    {
+        //check for the file
+        if(System.IO.File.Exists(userName.GetUserModelFileNameFromUserName())) 
+            throw new InvalidOperationException("User file already exists!  Cannot make a new one.");
+        
+        //throw new FileNotFoundException("User's file not found");
+        //create a new empty file
+        var newUserModel = new UserModel(){ UserName = userName };
+        SaveUserModel(userModel: newUserModel);
 
+        //destroy the user model
+        newUserModel = null;
+    }
     /// <summary>
     /// Load user model data based onthe user's name
     /// </summary>
@@ -37,10 +50,9 @@ public class IOOperations
     /// <returns></returns>
     public static UserModel LoadUserModel(string userName)
     {
-        //check for the file
         if(!System.IO.File.Exists(userName.GetUserModelFileNameFromUserName())) 
-            throw new FileNotFoundException("User's file not found");
-
+            createBlackUserModelFile(userName: userName);
+            
         //read the file
         var srcJSON = File.ReadAllText(userName.GetUserModelFileNameFromUserName());
 

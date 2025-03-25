@@ -63,7 +63,6 @@ public class TasKEntryProcessorTest
         project: "Unit Test2", 
         material: "Cheese2");
 
-
         //check if item is added
         if(userModelToSave.TaskEntries.Count == 0)
             Assert.Fail("No items added");

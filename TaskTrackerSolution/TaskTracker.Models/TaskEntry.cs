@@ -22,7 +22,7 @@ public class TaskEntry
         DueDate = dueDate;
         Description = description;
         Project = project;
-        material = Material;
+        Material = material;
     }
 
     public int EntryId{get; private set;}
