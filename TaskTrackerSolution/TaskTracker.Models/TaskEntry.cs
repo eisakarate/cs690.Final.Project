@@ -28,7 +28,7 @@ public class TaskEntry
     }
 
     public int EntryId{get; set;}
-    public string Title {get; set;}
+    public string Title {get; set;} = "";
 
     public TaskEntryStatus Status{get; set;}
 
@@ -36,11 +36,11 @@ public class TaskEntry
 
     public DateTime DueDate {get; set;}
 
-    public string Description {get; set;}
+    public string Description {get; set;} = "";
 
-    public string Project {get; set;}
+    public string Project {get; set;} = "";
 
-    public string Material {get; set;}
+    public string Material {get; set;} = "";
 
     public bool IsCompleted {
         get{

@@ -34,6 +34,7 @@ class mainLandingPageProcessor
             case "Update Task":
                 break;
             case "Delete Task":
+                userActions.DeleteTask();
                 break;
             case "Purage Completed Tasks":
                 break;

@@ -4,7 +4,7 @@ using TaskTracker.Processors;
 
 namespace TaskTracker;
 
-internal class userActions
+internal partial class userActions
 {
     internal static void AddTask()
     {

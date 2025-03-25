@@ -110,4 +110,49 @@ public class TasKEntryProcessorTest
             Assert.Equal("Title is already registered", ex.Message);
         }
     }
+
+    [Fact]
+    public void TestDeleteTask()
+    {
+        var userModelToSave = new UserModel(){ UserName = "test"};
+        //add one
+        userModelToSave.AddTask(
+        title: "testing", 
+        status: TaskEntryStatus.New, 
+        priority: TaskEntryPriority.Low, 
+        dueDate: DateTime.Now,
+        description: "Test", 
+        project: "Unit Test", 
+        material: "Cheese");
+        //add 2
+        userModelToSave.AddTask(
+        title: "testing2", 
+        status: TaskEntryStatus.New, 
+        priority: TaskEntryPriority.Low, 
+        dueDate: DateTime.Now,
+        description: "Test2", 
+        project: "Unit Test2", 
+        material: "Cheese2");
+
+        //delete the entry
+        userModelToSave.DeleteTask(entryIdToDelete: 2);
+
+        //check
+        if(userModelToSave.TaskEntries.Count == 2)
+            Assert.Fail("No items deleted");
+        if(userModelToSave.TaskEntries.Count == 0)
+            Assert.Fail("All items deleted");
+
+        //test for failure
+        try{
+            //delete the entry
+            userModelToSave.DeleteTask(entryIdToDelete: 2);
+
+            Assert.Fail("Entry has already been deleted.  Can't delete item that's not there.");
+        }
+        catch(InvalidOperationException ex)
+        {
+            Assert.Equal("Entry Id not found", ex.Message);
+        }
+    }
 }
