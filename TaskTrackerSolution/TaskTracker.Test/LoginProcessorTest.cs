@@ -60,8 +60,9 @@ public class LoginProcessorTest
         //remove existing file
         if (System.IO.File.Exists(testUserName.GetUserModelFileNameFromUserName()))
             System.IO.File.Delete(testUserName.GetUserModelFileNameFromUserName());
-        
+
         //login
+        LoginProcessor.LogOut();
         LoginProcessor.Login(testUserName);
         if (!System.IO.File.Exists(testUserName.GetUserModelFileNameFromUserName()))
             Assert.Fail("User file not created");
