@@ -11,8 +11,8 @@ public static class LoginProcessor
     {
         System.Diagnostics.Debug.WriteLine("Logging in");
         //check if they can log in
-        // if(CurrentUser != null)
-        //     throw new InvalidOperationException("You cannot login until current user logs out.");
+        if(CurrentUser != null)
+            throw new InvalidOperationException("You cannot login until current user logs out.");
 
         //log in
         CurrentUser = IOOperations.LoadUserModel(userName);
