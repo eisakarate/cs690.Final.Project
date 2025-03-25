@@ -6,5 +6,5 @@ public class UserModel
 {
     public string UserName {get; set;}
 
-    public List<TaskEntry> TaskEntries{get; private set;} = new List<TaskEntry>();
+    public List<TaskEntry> TaskEntries{get; set;} = new List<TaskEntry>();
 }
