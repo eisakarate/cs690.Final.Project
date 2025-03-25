@@ -14,18 +14,21 @@ class Program
         );
     }
 
-    private static void loginUser()
+    public static void loginUser()
     {
         var userName = promptForLogin();
 
         //log the user in
         LoginProcessor.Login(userName: userName);
+
+        //got to the main page
+        mainLandingPageProcessor.DisplayMainLandingPage();
     }
 
     static void Main(string[] args)
     {
         AnsiConsole.WriteLine("Welcome to Task Tracker!");
-        
+
         loginUser();
     }
 }
