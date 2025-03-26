@@ -89,7 +89,7 @@ internal partial class userActions
         switch(userSelectedAction)
         {
             case "Update Task":
-                UpdateTask();
+                displayOptionsAndData(trgEntry: trgEntry);
                 break;
             case "Delete Task":
                 DeleteTask();

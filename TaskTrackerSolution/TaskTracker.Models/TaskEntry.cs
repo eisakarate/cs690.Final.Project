@@ -36,7 +36,7 @@ public class TaskEntry
     }
 
     public TaskEntryStatus Status{get; set;}
-    public string StatusForCLI{
+    public string StatusForTable{
         get{
             switch(Status)
             {
@@ -50,9 +50,23 @@ public class TaskEntry
             return "";
         }
     }
+    public string StatusForCLI{
+        get{
+            switch(Status)
+            {
+                case TaskEntryStatus.New:
+                    return "New";
+                case TaskEntryStatus.InProgress:
+                    return "In-Progress";
+                case TaskEntryStatus.Done:
+                    return "Done";
+            }
+            return "";
+        }
+    }
 
     public TaskEntryPriority Prioirty {get; set;}
-    public string PriorityForCLI{
+    public string PriorityForTable{
         get{
             switch(Prioirty)
             {
@@ -62,6 +76,21 @@ public class TaskEntry
                     return $"[Yellow]Mid[/]";
                 case TaskEntryPriority.Low:
                     return $"[Grey]Low[/]";
+            }
+            return "";
+        }
+    }
+    
+    public string PriorityForCLI{
+        get{
+            switch(Prioirty)
+            {
+                case TaskEntryPriority.High:
+                    return "High";
+                case TaskEntryPriority.Mid:
+                    return "Mid";
+                case TaskEntryPriority.Low:
+                    return "Low";
             }
             return "";
         }

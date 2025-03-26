@@ -62,7 +62,16 @@ internal partial class userActions
             .AllowEmpty()
         );
 
-        var dueDate = DateTime.Parse($"{dueDateString} {dueTimeString}");
+        DateTime dueDate;
+        if(!DateTime.TryParse($"{dueDateString} {dueTimeString}", out dueDate))
+        {
+            AnsiConsole.MarkupLine("[red]Invalid date expression provided.[/]");
+            AnsiConsole.MarkupLine("[red]Terminating Add process.[/]");
+            PressEnterToProceed();
+            //display main landing page
+            mainLandingPageProcessor.DisplayMainLandingPage();
+            return;
+        }
 
         //add to the user model
         if(LoginProcessor.CurrentUser == null)

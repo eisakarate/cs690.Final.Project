@@ -58,8 +58,13 @@ class mainLandingPageProcessor
             throw new NullReferenceException("User Model is null.");
 
         AnsiConsole.Clear();
-        AnsiConsole.WriteLine("Main Page");
-        AnsiConsole.WriteLine($"User: {LoginProcessor.CurrentUser.UserName}");
+        var rule = new Rule("Welcome To the Main Page");
+        rule.RuleStyle("gold3 bold");
+        AnsiConsole.Write(rule);
+        AnsiConsole.MarkupLine($"User: [gold3 bold]{LoginProcessor.CurrentUser.UserName}[/]");
+        var rule2= new Rule();
+        rule2.RuleStyle("gold3 bold");
+        AnsiConsole.Write(rule2);
 
         if(messageToDisplayOnLoad.Length > 0)
             AnsiConsole.Write($"[{ConfigurationSettings.ConsoleTextColors.Gold}]{messageToDisplayOnLoad}[]/");
@@ -70,8 +75,11 @@ class mainLandingPageProcessor
         if(tableToShow.Rows.Count > 0)
             AnsiConsole.Write(tableToShow);
         else
-            AnsiConsole.WriteLine("No tasks here.");
-
+        {
+            AnsiConsole.WriteLine("");
+            AnsiConsole.MarkupLine("No tasks defined.  Choose an option from below to get started :backhand_index_pointing_down:");
+            AnsiConsole.WriteLine("");
+        }
         //show user options
         displayUseActions();
     }

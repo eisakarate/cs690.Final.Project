@@ -20,8 +20,8 @@ public static class ConsoleOutputProcessor
         //add entries
         table.AddRow("Entry Id",task.EntryId.ToString());
         table.AddRow("Title",task.TitleForCLI);
-        table.AddRow("Status",task.StatusForCLI);
-        table.AddRow("Priority",task.PriorityForCLI);
+        table.AddRow("Status",task.StatusForTable);
+        table.AddRow("Priority",task.PriorityForTable);
         table.AddRow("Due Date",task.DueDateAsString);
         table.AddRow("Project",task.Project);
         table.AddRow("Material",task.Material);
@@ -50,8 +50,8 @@ public static class ConsoleOutputProcessor
             table.AddRow(
                 t.EntryId.ToString(),
                 t.TitleForCLI,
-                t.StatusForCLI,
-                t.PriorityForCLI,
+                t.StatusForTable,
+                t.PriorityForTable,
                 t.DueDateAsString,
                 t.Description,
                 t.Project,
