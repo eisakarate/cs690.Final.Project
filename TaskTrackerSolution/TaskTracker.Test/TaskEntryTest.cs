@@ -17,7 +17,7 @@ public class TaskEntryTest
         project: "Unit Test", 
         material: "Cheese");
 
-        Assert.Equal(false, tEntry.IsCompleted);
+        Assert.False(tEntry.IsCompleted);
     }
     [Fact]
     public void TestTaskEntryIsDone_isDone()
@@ -31,6 +31,6 @@ public class TaskEntryTest
         project: "Unit Test", 
         material: "Cheese");
 
-        Assert.Equal(true, tEntry.IsCompleted);
+        Assert.True(tEntry.IsCompleted);
     }
 }
