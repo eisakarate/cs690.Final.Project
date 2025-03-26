@@ -20,9 +20,9 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies 
+    - name: Restore dependencies
       run: dotnet restore  ./TaskTrackerSolution/TaskTrackerSolution.sln
     - name: Build
-      run: dotnet build --no-restore  ./TaskTrackerSolution/TaskTrackerSolution.sln
+      run: dotnet build  ./TaskTrackerSolution/TaskTrackerSolution.sln --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal  ./TaskTrackerSolution/TaskTrackerSolution.sln
+      run: dotnet test  ./TaskTrackerSolution/TaskTrackerSolution.sln --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:threhold=80
