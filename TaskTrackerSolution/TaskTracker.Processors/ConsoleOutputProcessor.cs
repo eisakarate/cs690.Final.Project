@@ -44,8 +44,26 @@ public static class ConsoleOutputProcessor
         table.AddColumn("Project");
         table.AddColumn("Material");
 
+        //sort options
+        List<TaskEntry> sorted = null;
+        switch(LoginProcessor.TaskSortOptions)
+        {
+            case TaskTableSortOptions.ByDueDateDescending:
+                sorted = userModel.TaskEntries.OrderByDescending(x=>x.DueDate).ToList();
+                break;
+            case TaskTableSortOptions.ByTitleAscending:
+                sorted = userModel.TaskEntries.OrderBy(x=>x.Title).ToList();
+                break;
+            case TaskTableSortOptions.ByTitleDescending:
+                sorted = userModel.TaskEntries.OrderByDescending(x=>x.Title).ToList();
+                break;
+            default:
+                sorted = userModel.TaskEntries.OrderBy(x=>x.DueDate).ToList();
+                break;
+        }
+
         //add rows
-        foreach(var t in userModel.TaskEntries)
+        foreach(var t in sorted)
         {
             table.AddRow(
                 t.EntryId.ToString(),

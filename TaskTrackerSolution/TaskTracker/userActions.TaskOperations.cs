@@ -12,6 +12,20 @@ internal partial class userActions
         if (LoginProcessor.CurrentUser == null)
             throw new NullReferenceException("User model is null.");
 
+        // Ask the user to confirm
+        var confirmation = AnsiConsole.Prompt(
+            new ConfirmationPrompt($"$ Are you sure you want to purage completed tasks?"));
+
+        //yes or No?
+        if(!confirmation)
+            mainLandingPageProcessor.DisplayMainLandingPage();
+
+        LoginProcessor.CurrentUser.PurgeTasks();
+
+        //notify
+        AnsiConsole.WriteLine("Purge completed successfully.");
+        PressEnterToProceed();
+
         mainLandingPageProcessor.DisplayMainLandingPage();
     }
     internal static void DeleteTask()

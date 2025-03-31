@@ -6,6 +6,39 @@ namespace TaskTracker;
 
 internal partial class userActions
 {
+    internal static void SortTaskView()
+    {
+        var userStortAction = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title ("What would you like to do?")
+                .PageSize(10)
+                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                .AddChoices(new []{
+                    "By Due Date (Ascending)",
+                    "By Due Date (Descending)",
+                    "By Title (Ascending)",
+                    "By Title (Descending)"
+                })
+            );
+
+        switch(userStortAction)
+        {
+            case "By Due Date (Descending)":
+                LoginProcessor.TaskSortOptions = TaskTableSortOptions.ByDueDateDescending;
+                break;
+            case "By Title (Ascending)":
+                LoginProcessor.TaskSortOptions = TaskTableSortOptions.ByTitleAscending;
+                break;
+            case "By Title (Descending)":
+                LoginProcessor.TaskSortOptions = TaskTableSortOptions.ByTitleDescending;
+                break;
+            default:
+                LoginProcessor.TaskSortOptions = TaskTableSortOptions.ByDuedDateAscening;
+                break;
+        }
+        mainLandingPageProcessor.DisplayMainLandingPage();
+    }
+
     internal static void PressEnterToProceed()
     {
         AnsiConsole.Prompt(

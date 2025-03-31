@@ -10,6 +10,24 @@ public static class TaskEntryProcessor
     private static int getCurMaxEntryId(this UserModel userModel)
         => userModel.TaskEntries.Count > 0? userModel.TaskEntries.Max(x=>x.EntryId): 0;
 
+    public static void PurgeTasks(this UserModel userModel)
+    {
+        if(userModel.TaskEntries == null)
+            return;
+        
+        for(var i = 0; i < userModel.TaskEntries.Count; i++)
+        {
+            var entry = userModel.TaskEntries[i];
+            switch(entry.Status)
+            {
+                case TaskEntryStatus.Done:
+                    //delete it
+                    userModel.TaskEntries.Remove(entry);
+                    break;
+            }
+        }
+    }
+
     public static void DeleteTask(this UserModel userModel, int entryIdToDelete)
     {
         if(! userModel.TaskEntries.Any(x=>x.EntryId == entryIdToDelete))

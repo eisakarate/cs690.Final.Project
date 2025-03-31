@@ -14,6 +14,7 @@ class mainLandingPageProcessor
                 .PageSize(10)
                 .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
                 .AddChoices(new []{
+                    "Sort Tasks View",
                     "Add Task",
                     "View Task Detail",
                     "Update Task",
@@ -26,6 +27,9 @@ class mainLandingPageProcessor
 
         switch(userSelectedAction)
         {
+            case "Sort Tasks View":
+                userActions.SortTaskView();
+                break;
             case "Add Task":
                 userActions.AddTask();
                 break;
@@ -38,7 +42,7 @@ class mainLandingPageProcessor
             case "Delete Task":
                 userActions.DeleteTask();
                 break;
-            case "Purage Completed Tasks":
+            case "Purge Completed Tasks":
                 userActions.PurgeTasks();
                 break;
             case "Log out":
