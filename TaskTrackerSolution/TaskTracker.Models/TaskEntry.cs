@@ -31,7 +31,18 @@ public class TaskEntry
     public string Title {get; set;} = "";
     public string TitleForCLI{
         get{
-            return Title;
+            var getTitleColor = new Func<string>(()=>{
+                if(this.DueDate < DateTime.Now)
+                    return "red1";  //task is overdue
+                //calculate difference
+                TimeSpan diff = DateTime.Now - this.DueDate;
+                if(diff.TotalMinutes >= 15)
+                    return "gold1";  //task is aboout to be due
+
+                //default return
+                return "white";
+            });
+            return $"[{getTitleColor()}]{Title}[/]";
         }
     }
 

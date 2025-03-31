@@ -45,7 +45,7 @@ public static class ConsoleOutputProcessor
         table.AddColumn("Material");
 
         //sort options
-        List<TaskEntry> sorted = null;
+        List<TaskEntry> sorted = new List<TaskEntry>();
         switch(LoginProcessor.TaskSortOptions)
         {
             case TaskTableSortOptions.ByDueDateDescending:

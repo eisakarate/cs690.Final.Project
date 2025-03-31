@@ -40,12 +40,12 @@ public class ConsoleOutputProcessorTest
         title: "testing", 
         status: TaskEntryStatus.Done, 
         priority: TaskEntryPriority.Mid, 
-        dueDate: DateTime.Now,
+        dueDate: DateTime.Now.AddMinutes(-14),
         description: "Test", 
         project: "Unit Test", 
         material: "Cheese");
 
-         var tEntry3 = new TaskEntry(entryId: 1, 
+        var tEntry3 = new TaskEntry(entryId: 1, 
         title: "testing", 
         status: TaskEntryStatus.InProgress, 
         priority: TaskEntryPriority.High, 
