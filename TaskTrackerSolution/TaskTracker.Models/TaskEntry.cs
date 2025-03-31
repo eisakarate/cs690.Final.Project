@@ -31,18 +31,24 @@ public class TaskEntry
     public string Title {get; set;} = "";
     public string TitleForCLI{
         get{
-            var getTitleColor = new Func<string>(()=>{
+            var getTitleColor = new Func<(string, string)>(()=>{
                 if(this.DueDate < DateTime.Now)
-                    return "red1";  //task is overdue
+                    return ("red1 bold", " (Overdue!)");  //task is overdue
                 //calculate difference
                 TimeSpan diff = DateTime.Now - this.DueDate;
                 if(diff.TotalMinutes >= 15)
-                    return "gold1";  //task is aboout to be due
+                    return ("gold1", " (Almost Due)");  //task is aboout to be due
 
                 //default return
-                return "white";
+                return ("white", "");
             });
-            return $"[{getTitleColor()}]{Title}[/]";
+
+            if (this.Status == TaskEntryStatus.Done)
+                //no issue, it's done
+                return $"[white]{Title}[/]";
+
+            var r = getTitleColor();
+            return $"[{r.Item1}]{Title}{r.Item2}[/]";
         }
     }
 

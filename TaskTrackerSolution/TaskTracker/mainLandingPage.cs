@@ -46,7 +46,10 @@ class mainLandingPageProcessor
                 userActions.PurgeTasks();
                 break;
             case "Log out":
-                userActions.LogoutAction();
+                //clear the screen
+                AnsiConsole.Clear();
+                //go to the login page
+                Program.showWelcomePage();
                 break;
             case "Quit":
                 userActions.QuitAction();
