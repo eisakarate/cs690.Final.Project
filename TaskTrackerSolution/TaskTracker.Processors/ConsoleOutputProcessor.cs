@@ -34,12 +34,31 @@ public static class ConsoleOutputProcessor
         // Create a table
         var table = new Spectre.Console.Table();
 
+        //sorting expressions
+        var titleSort = "";
+        var dueDateSort = "";
+        switch(LoginProcessor.TaskSortOptions)
+        {
+            case TaskTableSortOptions.ByDuedDateAscening:
+                dueDateSort = " :down_arrow:";
+                break;
+            case TaskTableSortOptions.ByDueDateDescending:
+                dueDateSort = " :up_arrow:";
+                break;
+            case TaskTableSortOptions.ByTitleAscending:
+                titleSort = " :down_arrow:";
+                break;
+            case TaskTableSortOptions.ByTitleDescending:
+                titleSort = " :up_arrow:";
+                break;
+        }
+
         //add colums
         table.AddColumn("Entry Id");
-        table.AddColumn("Title");
+        table.AddColumn($"Title{titleSort}");
         table.AddColumn("Status");
         table.AddColumn("Priority");
-        table.AddColumn("Due Date");
+        table.AddColumn($"Due Date{dueDateSort}");
         table.AddColumn("Description");
         table.AddColumn("Project");
         table.AddColumn("Material");

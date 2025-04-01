@@ -30,8 +30,11 @@ class Program
     public static void showWelcomePage()
     {   
         var rule = new Rule();
+        AnsiConsole.Clear();
         AnsiConsole.Write(rule);
         AnsiConsole.MarkupLine("[gold1 bold]Welcome to Task Tracker![/]");
+        AnsiConsole.WriteLine("");
+        AnsiConsole.WriteLine("You can login from here.  If you don't have an account, it will create one for you when you log in!");
         AnsiConsole.Write(rule);
         
         var userAction = AnsiConsole.Prompt(
@@ -39,14 +42,14 @@ class Program
                 .Title ("What would you like to do?")
                 .PageSize(10)
                 .AddChoices(new []{
-                    "Login to the application",
+                    "Login to Task Tracker",
                     "Quit the application",
                 })
             );
         
         switch(userAction)
         {
-            case "Login to the application":
+            case "Login to Task Tracker":
                 loginUser();
                 break;
             default:

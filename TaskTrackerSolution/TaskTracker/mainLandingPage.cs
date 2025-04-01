@@ -65,7 +65,7 @@ class mainLandingPageProcessor
             throw new NullReferenceException("User Model is null.");
 
         AnsiConsole.Clear();
-        var rule = new Rule("Welcome To the Main Page");
+        var rule = new Rule("Trask Tracker Main Page: Task Listing");
         rule.RuleStyle("gold3 bold");
         AnsiConsole.Write(rule);
         AnsiConsole.MarkupLine($"User: [gold3 bold]{LoginProcessor.CurrentUser.UserName}[/]");
@@ -84,7 +84,7 @@ class mainLandingPageProcessor
         else
         {
             AnsiConsole.WriteLine("");
-            AnsiConsole.MarkupLine("No tasks defined.  Choose an option from below to get started :backhand_index_pointing_down:");
+            AnsiConsole.MarkupLine("No tasks registered yet.  Choose an option from below to get started :backhand_index_pointing_down:");
             AnsiConsole.WriteLine("");
         }
         //show user options
