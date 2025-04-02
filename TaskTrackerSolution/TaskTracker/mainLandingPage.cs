@@ -6,6 +6,16 @@ namespace TaskTracker;
 
 class mainLandingPageProcessor
 {
+    private static void DisplayYouCantDoThisMessage(string message)
+    {
+        AnsiConsole.MarkupLine($"Ooops! {message}");
+        userActions.PressEnterToProceed();
+    }
+
+    private static bool CanPerformTaskEntryModificationActions()
+    {
+        return LoginProcessor.CurrentUser.TaskEntries.Count() > 0;
+    }
     private static void displayUseActions()
     {
         var userSelectedAction = AnsiConsole.Prompt(
@@ -14,12 +24,12 @@ class mainLandingPageProcessor
                 .PageSize(10)
                 .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
                 .AddChoices(new []{
-                    "Sort Tasks View",
                     "Add Task",
-                    "View Task Detail",
-                    "Update Task",
                     "Delete Task",
                     "Purge Completed Tasks",
+                    "Sort Tasks View",
+                    "Update Task",
+                    "View Task Detail",
                     "Log out",
                     "Quit"
                 })
@@ -28,19 +38,44 @@ class mainLandingPageProcessor
         switch(userSelectedAction)
         {
             case "Sort Tasks View":
-                userActions.SortTaskView();
+                if (CanPerformTaskEntryModificationActions())
+                    userActions.SortTaskView();
+                else
+                {
+                    DisplayYouCantDoThisMessage("You haven't registered any tasks.  Please start with the 'Add Task' action.");
+                    DisplayMainLandingPage();
+                }
                 break;
             case "Add Task":
                 userActions.AddTask();
                 break;
             case "View Task Detail":
-                userActions.ViewTaskDetail();
+                    
+                if (CanPerformTaskEntryModificationActions())
+                    userActions.ViewTaskDetail();
+                else
+                {
+                    DisplayYouCantDoThisMessage("You haven't registered any tasks.  Please start with the 'Add Task' action.");
+                    DisplayMainLandingPage();
+                }
                 break;
-            case "Update Task":
-                userActions.UpdateTask();
+            case "Update Task":                    
+                if (CanPerformTaskEntryModificationActions())
+                    userActions.UpdateTask();
+                else
+                {
+                    DisplayYouCantDoThisMessage("You haven't registered any tasks.  Please start with the 'Add Task' action.");
+                    DisplayMainLandingPage();
+                }
                 break;
-            case "Delete Task":
-                userActions.DeleteTask();
+            case "Delete Task":                    
+                if (CanPerformTaskEntryModificationActions())
+                    userActions.DeleteTask();
+                else
+                {
+                    DisplayYouCantDoThisMessage("You haven't registered any tasks.  Please start with the 'Add Task' action.");
+                    DisplayMainLandingPage();
+                }
                 break;
             case "Purge Completed Tasks":
                 userActions.PurgeTasks();

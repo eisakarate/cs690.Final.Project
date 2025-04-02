@@ -28,6 +28,34 @@ internal partial class userActions
 
         mainLandingPageProcessor.DisplayMainLandingPage();
     }
+
+    //delete an entry
+    internal static void DeleteTaskItem(int trgEntryId)
+    {
+        if (LoginProcessor.CurrentUser == null)
+            throw new NullReferenceException("User model is null.");
+
+        //get the item to remove
+        var trgEntry = LoginProcessor.CurrentUser.TaskEntries.Where(x=>x.EntryId == trgEntryId).First();
+
+        // Ask the user to confirm
+        var confirmation = AnsiConsole.Prompt(
+            new ConfirmationPrompt($"$ Are you sure you want to delete Task {trgEntryId}: (Title: [{ConfigurationSettings.ConsoleTextColors.Green}]{trgEntry.Title}[/])?"));
+
+        //yes or No?
+        if(!confirmation)
+            mainLandingPageProcessor.DisplayMainLandingPage();
+
+        //delete
+        LoginProcessor.CurrentUser.DeleteTask(entryIdToDelete: trgEntryId);
+        IOOperations.SaveUserModel(LoginProcessor.CurrentUser);
+
+        //notify
+        AnsiConsole.WriteLine("Entry removed successfully.");
+        PressEnterToProceed();
+        mainLandingPageProcessor.DisplayMainLandingPage();
+    }
+
     internal static void DeleteTask()
     {
         if (LoginProcessor.CurrentUser == null)
@@ -44,25 +72,8 @@ internal partial class userActions
             mainLandingPageProcessor.DisplayMainLandingPage();
         }
 
-        //get the item
-        var trgEntry = LoginProcessor.CurrentUser.TaskEntries.Where(x=>x.EntryId == entryId).First();
-
-        // Ask the user to confirm
-        var confirmation = AnsiConsole.Prompt(
-            new ConfirmationPrompt($"$ Are you sure you want to delete Task {entryId}: {trgEntry.Title}?"));
-
-        //yes or No?
-        if(!confirmation)
-            mainLandingPageProcessor.DisplayMainLandingPage();
-
-        //delete
-        LoginProcessor.CurrentUser.DeleteTask(entryIdToDelete: entryId);
-        IOOperations.SaveUserModel(LoginProcessor.CurrentUser);
-
-        //notify
-        AnsiConsole.WriteLine("Entry removed successfully.");
-        PressEnterToProceed();
-        mainLandingPageProcessor.DisplayMainLandingPage();
+        //delete it
+        DeleteTaskItem(entryId);
     }
 
     internal static void ViewTaskDetail()
@@ -106,7 +117,7 @@ internal partial class userActions
                 displayOptionsAndData(trgEntry: trgEntry);
                 break;
             case "Delete Task":
-                DeleteTask();
+                DeleteTaskItem(trgEntryId: entryId);
                 break;
             default:
                 //exit

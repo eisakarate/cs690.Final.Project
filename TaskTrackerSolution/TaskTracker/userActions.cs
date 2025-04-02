@@ -98,7 +98,7 @@ internal partial class userActions
         DateTime dueDate;
         if(!DateTime.TryParse($"{dueDateString} {dueTimeString}", out dueDate))
         {
-            AnsiConsole.MarkupLine("[red]Invalid date expression provided.[/]");
+            AnsiConsole.MarkupLine("[red]Invalid Due Date (Date or Time) expression provided.[/]");
             AnsiConsole.MarkupLine("[red]Terminating Add process.[/]");
             PressEnterToProceed();
             //display main landing page
