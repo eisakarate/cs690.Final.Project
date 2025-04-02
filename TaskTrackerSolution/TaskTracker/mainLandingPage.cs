@@ -14,6 +14,8 @@ class mainLandingPageProcessor
 
     private static bool CanPerformTaskEntryModificationActions()
     {
+        if(LoginProcessor.CurrentUser == null)
+            throw new InvalidOperationException("You need to login first");
         return LoginProcessor.CurrentUser.TaskEntries.Count() > 0;
     }
     private static void displayUseActions()
@@ -81,6 +83,7 @@ class mainLandingPageProcessor
                 userActions.PurgeTasks();
                 break;
             case "Log out":
+                LoginProcessor.LogOut();
                 //clear the screen
                 AnsiConsole.Clear();
                 //go to the login page

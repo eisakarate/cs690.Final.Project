@@ -143,7 +143,7 @@ internal partial class userActions
         LoginProcessor.LogOut();
 
         //login
-        Program.loginUser();
+        Program.showWelcomePage();
     }
 
     internal static void QuitAction()
