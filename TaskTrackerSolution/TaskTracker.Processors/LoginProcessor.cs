@@ -4,6 +4,9 @@ namespace TaskTracker.Processors;
 
 public static class LoginProcessor
 {
+    //sort option
+    public static TaskTableSortOptions TaskSortOptions = TaskTableSortOptions.ByDuedDateAscening;
+
     //User Model
     public static UserModel? CurrentUser;
 

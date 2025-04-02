@@ -7,6 +7,5 @@ public enum TaskEntryPriority
     //Medium priority
     Mid = 1,
     //High priority
-    //
     High = 2
 }

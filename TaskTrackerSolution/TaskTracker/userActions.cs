@@ -6,10 +6,43 @@ namespace TaskTracker;
 
 internal partial class userActions
 {
-    internal static void PressEnterToProceed()
+    internal static void SortTaskView()
+    {
+        var userStortAction = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title ("What would you like to do?")
+                .PageSize(10)
+                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                .AddChoices(new []{
+                    "By Due Date (Ascending)",
+                    "By Due Date (Descending)",
+                    "By Title (Ascending)",
+                    "By Title (Descending)"
+                })
+            );
+
+        switch(userStortAction)
+        {
+            case "By Due Date (Descending)":
+                LoginProcessor.TaskSortOptions = TaskTableSortOptions.ByDueDateDescending;
+                break;
+            case "By Title (Ascending)":
+                LoginProcessor.TaskSortOptions = TaskTableSortOptions.ByTitleAscending;
+                break;
+            case "By Title (Descending)":
+                LoginProcessor.TaskSortOptions = TaskTableSortOptions.ByTitleDescending;
+                break;
+            default:
+                LoginProcessor.TaskSortOptions = TaskTableSortOptions.ByDuedDateAscening;
+                break;
+        }
+        mainLandingPageProcessor.DisplayMainLandingPage();
+    }
+
+    internal static void PressEnterToProceed(string messageToDsiplay = "Press Enter to return to the Main page")
     {
         AnsiConsole.Prompt(
-            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Press Enter to proceed:[/]")
+            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]{messageToDsiplay}:[/]")
             .AllowEmpty()
         );
     }
@@ -65,7 +98,7 @@ internal partial class userActions
         DateTime dueDate;
         if(!DateTime.TryParse($"{dueDateString} {dueTimeString}", out dueDate))
         {
-            AnsiConsole.MarkupLine("[red]Invalid date expression provided.[/]");
+            AnsiConsole.MarkupLine("[red]Invalid Due Date (Date or Time) expression provided.[/]");
             AnsiConsole.MarkupLine("[red]Terminating Add process.[/]");
             PressEnterToProceed();
             //display main landing page
@@ -76,21 +109,28 @@ internal partial class userActions
         //add to the user model
         if(LoginProcessor.CurrentUser == null)
             throw new NullReferenceException("User model is null.");
-        LoginProcessor.CurrentUser.AddTask(
-            title: title,
-            status: Models.TaskEntryStatus.New,
-            priority: priority,
-            dueDate: dueDate,
-            description: description,
-            project: projectName,
-            material: material
-        );
+        try
+        {
+            LoginProcessor.CurrentUser.AddTask(
+                title: title,
+                status: Models.TaskEntryStatus.New,
+                priority: priority,
+                dueDate: dueDate,
+                description: description,
+                project: projectName,
+                material: material
+            );
+            //save the data
+            IOOperations.SaveUserModel(userModel: LoginProcessor.CurrentUser);
 
-        //save the data
-        IOOperations.SaveUserModel(userModel: LoginProcessor.CurrentUser);
-
-        AnsiConsole.WriteLine("Done");
-        PressEnterToProceed();
+            AnsiConsole.WriteLine("Sucessfully added new task.");
+        }
+        catch(InvalidOperationException ex)
+        {
+        AnsiConsole.MarkupLine($"[red1 bold]Error encountered while adding the task: {ex.Message}![/]");
+        AnsiConsole.MarkupLine($"[red1 bold]Add process has been terminated.[/]");
+        }
+        PressEnterToProceed("Press Enter to return to the Main page");
         //display main landing page
         mainLandingPageProcessor.DisplayMainLandingPage();
     }

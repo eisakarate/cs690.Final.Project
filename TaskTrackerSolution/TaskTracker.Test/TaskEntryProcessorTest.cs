@@ -155,4 +155,46 @@ public class TasKEntryProcessorTest
             Assert.Equal("Entry Id not found", ex.Message);
         }
     }
+
+    [Fact]
+    public void TestPurgeTasks()
+    {
+        var userModelToSave = new UserModel(){ UserName = "test"};
+        //add one
+        userModelToSave.AddTask(
+        title: "testing", 
+        status: TaskEntryStatus.Done, 
+        priority: TaskEntryPriority.High, 
+        dueDate: DateTime.Now,
+        description: "Test", 
+        project: "Unit Test", 
+        material: "Cheese");
+        //add 2
+        userModelToSave.AddTask(
+        title: "testing2", 
+        status: TaskEntryStatus.Done, 
+        priority: TaskEntryPriority.Mid, 
+        dueDate: DateTime.Now,
+        description: "Test2", 
+        project: "Unit Test2", 
+        material: "Cheese2");
+        //add 2
+        userModelToSave.AddTask(
+        title: "testing3", 
+        status: TaskEntryStatus.Done, 
+        priority: TaskEntryPriority.Low, 
+        dueDate: DateTime.Now,
+        description: "Test3", 
+        project: "Unit Test3", 
+        material: "Cheese2");
+
+        //delete the entry
+        userModelToSave.PurgeTasks();
+
+        //check
+        if(userModelToSave.TaskEntries.Count != 1)
+            Assert.Fail("No items deleted");
+        if(userModelToSave.TaskEntries.Count == 0)
+            Assert.Fail("All items deleted");
+    }
 }
