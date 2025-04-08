@@ -1,4 +1,5 @@
 # cs690.Final.Project
 Final Project for the CS 690 class
 
-- Currently in Week 11 - requirements stage.  Please proceed to the [Wiki](https://github.com/eisakarate/cs690.Final.Project/wiki). (Done)
+- Currently in Week 13 - version 1
+- Also working on Week 14 - version 2
