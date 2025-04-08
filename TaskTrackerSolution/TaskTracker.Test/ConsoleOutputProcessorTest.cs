@@ -131,7 +131,7 @@ public class ConsoleOutputProcessorTest
             var table = e.AsSpecterTable();
         }
         LoginProcessor.TaskSortOptions = TaskTableSortOptions.ByTitleDescending;
-        foreach (var e in userModelToSave.TaskEntries)cd
+        foreach (var e in userModelToSave.TaskEntries)
         {
             var table = e.AsSpecterTable();
         }
