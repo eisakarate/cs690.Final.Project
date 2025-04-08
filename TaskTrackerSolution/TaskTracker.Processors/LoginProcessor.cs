@@ -12,7 +12,6 @@ public static class LoginProcessor
 
     public static void Login(string userName)
     {
-        System.Diagnostics.Debug.WriteLine("Logging in");
         //check if they can log in
         if(CurrentUser != null)
             throw new InvalidOperationException("You cannot login until current user logs out.");
@@ -22,9 +21,7 @@ public static class LoginProcessor
     }
 
     public static void LogOut()
-    {
-        System.Diagnostics.Debug.WriteLine("Logging out");
-
+    {        
         if(CurrentUser == null)
             return; //nothing to do, just log out
 
@@ -32,6 +29,7 @@ public static class LoginProcessor
         IOOperations.SaveUserModel(CurrentUser);
 
         //clear the current user model, add an empty class
-        CurrentUser = null;// new UserModel();
+        CurrentUser = new UserModel();
+        CurrentUser = null;
     }
 }

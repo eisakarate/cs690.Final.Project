@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using TaskTracker.Models;
@@ -8,6 +9,12 @@ namespace TaskTracker.Processors;
 
 public static class ConsoleOutputProcessor
 {
+    public static IEnumerable<string> TasksForConsoleChoices(this UserModel userModel)
+    {
+        foreach(var t in userModel.TaskEntries)
+            yield return $"{t.EntryId} - {t.TitleForCLI}";
+    }
+
     public static Table AsSpecterTable(this TaskEntry task)
     {
         // Create a table
@@ -23,6 +30,7 @@ public static class ConsoleOutputProcessor
         table.AddRow("Status",task.StatusForTable);
         table.AddRow("Priority",task.PriorityForTable);
         table.AddRow("Due Date",task.DueDateAsString);
+        table.AddRow("Description",task.Description);
         table.AddRow("Project",task.Project);
         table.AddRow("Material",task.Material);
 

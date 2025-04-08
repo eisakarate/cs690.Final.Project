@@ -52,12 +52,57 @@ internal partial class userActions
         var title = AnsiConsole.Prompt(
             new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Task Title:[/]")
         );
-        var dueDateString = AnsiConsole.Prompt(
-            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Date (mm/dd/yyyy):[/]")
+        
+        var dueDateMonth = AnsiConsole.Prompt(
+            new TextPrompt<int>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Date (Month):[/]")
+                .Validate((n)=>n switch{
+                    < 1 => ValidationResult.Error("Must between 1 and 12"),
+                    > 12 => ValidationResult.Error("Must between 1 and 12"),
+                    >= 1 and <= 12 => ValidationResult.Success()
+                })
         );
-        var dueTimeString = AnsiConsole.Prompt(
-            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Time (hh:mm):[/]")
+        var dueDateDay = AnsiConsole.Prompt(
+            new TextPrompt<int>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Date (Day):[/]")
+                .Validate((n)=>n switch{
+                    < 1 => ValidationResult.Error("Must between 1 and 31"),
+                    > 31 => ValidationResult.Error("Must between 1 and 31"),
+                    >= 1 and <= 31 => ValidationResult.Success()
+                })
         );
+
+        var dueDateYear = AnsiConsole.Prompt(
+            new TextPrompt<int>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Date (Year):[/]")
+        );
+
+        var dueTimeHour = AnsiConsole.Prompt(
+            new TextPrompt<int>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Time (Hour: 0 -> mid night, 23 -> 11 pm):[/]")
+                .Validate((n)=>n switch{
+                    < 0 => ValidationResult.Error("Must between 0 and 23"),
+                    > 23 => ValidationResult.Error("Must between 0 and 23"),
+                    >= 0 and <= 23 => ValidationResult.Success()
+                })
+        );
+        var dueTimeeMinutes = AnsiConsole.Prompt(
+            new TextPrompt<int>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Time (Minutes):[/]")
+                .Validate((n)=>n switch{
+                    < 0 => ValidationResult.Error("Must between 0 and 59"),
+                    > 59 => ValidationResult.Error("Must between 0 and 59"),
+                    >= 0 and <= 59 => ValidationResult.Success()
+                })
+        );
+        
+        //validate date/time expression
+        DateTime dueDate;
+        if(!DateTime.TryParse($"{dueDateMonth.ToString()}/{dueDateDay.ToString()}/{dueDateYear.ToString()} {dueTimeHour}:{dueTimeeMinutes}", out dueDate))
+        {
+            AnsiConsole.MarkupLine("[red]Invalid Due Date (Date or Time) expression provided.[/]");
+            AnsiConsole.MarkupLine("[red]Terminating Add process.[/]");
+            PressEnterToProceed();
+            //display main landing page
+            mainLandingPageProcessor.DisplayMainLandingPage();
+            return;
+        }
+
         var priorityString = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title ($"[{ConfigurationSettings.ConsoleTextColors.Green}]Please select a priority:[/]")
@@ -94,17 +139,6 @@ internal partial class userActions
             new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}][[Optional]]Enter a Material List (ok to leave blank):[/]")
             .AllowEmpty()
         );
-
-        DateTime dueDate;
-        if(!DateTime.TryParse($"{dueDateString} {dueTimeString}", out dueDate))
-        {
-            AnsiConsole.MarkupLine("[red]Invalid Due Date (Date or Time) expression provided.[/]");
-            AnsiConsole.MarkupLine("[red]Terminating Add process.[/]");
-            PressEnterToProceed();
-            //display main landing page
-            mainLandingPageProcessor.DisplayMainLandingPage();
-            return;
-        }
 
         //add to the user model
         if(LoginProcessor.CurrentUser == null)
@@ -143,7 +177,7 @@ internal partial class userActions
         LoginProcessor.LogOut();
 
         //login
-        Program.loginUser();
+        Program.showWelcomePage();
     }
 
     internal static void QuitAction()

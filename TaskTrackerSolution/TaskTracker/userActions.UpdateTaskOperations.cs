@@ -33,7 +33,7 @@ internal partial class userActions
         AnsiConsole.WriteLine($"Current Status: {trgEntry.StatusForCLI}");
         trgEntry.Status = TaskEntryStatus.InProgress;
         AnsiConsole.WriteLine($"Updated Status: {trgEntry.StatusForCLI}");
-        PressEnterToProceed();
+        PressEnterToProceed("Press Enter to return to the previous page");
     }
     private static void flagAsDone(TaskEntry trgEntry)
     {
@@ -41,7 +41,7 @@ internal partial class userActions
         AnsiConsole.WriteLine($"Current Status: {trgEntry.StatusForCLI}");
         trgEntry.Status = TaskEntryStatus.Done;
         AnsiConsole.WriteLine($"Updated Status: {trgEntry.StatusForCLI}");
-        PressEnterToProceed();
+        PressEnterToProceed("Press Enter to return to the previous page");
     }
     private static void updatePriority(TaskEntry trgEntry)
     {
@@ -72,47 +72,83 @@ internal partial class userActions
                 trgEntry.Prioirty = TaskEntryPriority.Low;
                 break;
         }
-        AnsiConsole.WriteLine($"Updated Status: {trgEntry.PriorityForCLI}");
-        PressEnterToProceed();
+        AnsiConsole.MarkupLine($"Updated Status: {trgEntry.PriorityForTable}");
+        PressEnterToProceed("Press Enter to return to the previous page");
     }
     private static void updateDueDate(TaskEntry trgEntry)
     {
         //display current status
         AnsiConsole.WriteLine($"Current Due Date: {trgEntry.DueDateAsString}");
-        
-        var dueDateString = AnsiConsole.Prompt(
-            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Date (mm/dd/yyyy):[/]")
+               
+        var dueDateMonth = AnsiConsole.Prompt(
+            new TextPrompt<int>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Date (Month):[/]")
+                .Validate((n)=>n switch{
+                    < 1 => ValidationResult.Error("Must between 1 and 12"),
+                    > 12 => ValidationResult.Error("Must between 1 and 12"),
+                    >= 1 and <= 12 => ValidationResult.Success()
+                })
         );
-        var dueTimeString = AnsiConsole.Prompt(
-            new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Time (hh:mm):[/]")
-        );    
+        var dueDateDay = AnsiConsole.Prompt(
+            new TextPrompt<int>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Date (Day):[/]")
+                .Validate((n)=>n switch{
+                    < 1 => ValidationResult.Error("Must between 1 and 31"),
+                    > 31 => ValidationResult.Error("Must between 1 and 31"),
+                    >= 1 and <= 31 => ValidationResult.Success()
+                })
+        );
 
-        DateTime d;
-        if(!DateTime.TryParse($"{dueDateString} {dueTimeString}", out d))
+        var dueDateYear = AnsiConsole.Prompt(
+            new TextPrompt<int>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Date (Year):[/]")
+        );
+
+        var dueTimeHour = AnsiConsole.Prompt(
+            new TextPrompt<int>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Time (Hour: 0 -> mid night, 23 -> 11 pm):[/]")
+                .Validate((n)=>n switch{
+                    < 0 => ValidationResult.Error("Must between 0 and 23"),
+                    > 23 => ValidationResult.Error("Must between 0 and 23"),
+                    >= 0 and <= 23 => ValidationResult.Success()
+                })
+        );
+        var dueTimeeMinutes = AnsiConsole.Prompt(
+            new TextPrompt<int>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Due Time (Minutes):[/]")
+                .Validate((n)=>n switch{
+                    < 0 => ValidationResult.Error("Must between 0 and 59"),
+                    > 59 => ValidationResult.Error("Must between 0 and 59"),
+                    >= 0 and <= 59 => ValidationResult.Success()
+                })
+        );
+        
+        //validate date/time expression
+        DateTime dueDate;
+        if(!DateTime.TryParse($"{dueDateMonth.ToString()}/{dueDateDay.ToString()}/{dueDateYear.ToString()} {dueTimeHour}:{dueTimeeMinutes}", out dueDate))
         {
-            AnsiConsole.WriteLine("[red]Invalid date expression provided.[/]");
+            AnsiConsole.MarkupLine("[red]Invalid Due Date (Date or Time) expression provided.[/]");
+            AnsiConsole.MarkupLine("[red]Terminating Add process.[/]");
             PressEnterToProceed();
+            //display main landing page
+            mainLandingPageProcessor.DisplayMainLandingPage();
             return;
         }
 
         //set the date
-        trgEntry.DueDate = d;
+        trgEntry.DueDate = dueDate;
 
         //display current status
         AnsiConsole.WriteLine($"Updated Due Date: {trgEntry.DueDateAsString}");
-        PressEnterToProceed();
+        PressEnterToProceed("Press Enter to return to the previous page");
     }
     private static void updateDescription(TaskEntry trgEntry)
     {
         //display current status
-        AnsiConsole.WriteLine($"Current Description: {trgEntry.DueDateAsString}");
+        AnsiConsole.WriteLine($"Current Description: {trgEntry.Description}");
         trgEntry.Description = AnsiConsole.Prompt(
             new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Description (ok to leave blank):[/]")
             .AllowEmpty()
         );
+
         //update
-        AnsiConsole.WriteLine($"Updated Description: {trgEntry.DueDateAsString}");
-        PressEnterToProceed();
+        AnsiConsole.WriteLine($"Updated Description: {trgEntry.Description}");
+        PressEnterToProceed("Press Enter to return to the previous page");
     }
     private static void updateProject(TaskEntry trgEntry)
     {
@@ -124,19 +160,20 @@ internal partial class userActions
         );
         //update
         AnsiConsole.WriteLine($"Updated Project: {trgEntry.Project}");
-        PressEnterToProceed();
+        PressEnterToProceed("Press Enter to return to the previous page");
     }
         
     private static void updateMaterialList(TaskEntry trgEntry)
     {
         //display current status
         AnsiConsole.WriteLine($"Current Material List: {trgEntry.Material}");
-        var material = AnsiConsole.Prompt(
+        trgEntry.Material = AnsiConsole.Prompt(
             new TextPrompt<string>($"[{ConfigurationSettings.ConsoleTextColors.Green}]Enter a Material List (ok to leave blank):[/]")
             .AllowEmpty()
         );
         //update
         AnsiConsole.WriteLine($"Updated Material List: {trgEntry.Material}");
+        PressEnterToProceed("Press Enter to return to the previous page");
     }
 
     internal static void displayOptionsAndData(TaskEntry trgEntry)
