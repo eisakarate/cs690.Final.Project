@@ -48,16 +48,16 @@ public static class ConsoleOutputProcessor
         switch(LoginProcessor.TaskSortOptions)
         {
             case TaskTableSortOptions.ByDuedDateAscening:
-                dueDateSort = " :down_arrow:";
+                dueDateSort = " (Asc)";
                 break;
             case TaskTableSortOptions.ByDueDateDescending:
-                dueDateSort = " :up_arrow:";
+                dueDateSort = " (Desc)";
                 break;
             case TaskTableSortOptions.ByTitleAscending:
-                titleSort = " :down_arrow:";
+                titleSort = " (Asc)";
                 break;
             case TaskTableSortOptions.ByTitleDescending:
-                titleSort = " :up_arrow:";
+                titleSort = " (Desc)";
                 break;
         }
 

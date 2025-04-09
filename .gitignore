@@ -483,3 +483,4 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 TaskTrackerSolution/TaskTracker.Test/lcov.info
+TaskTrackerSolution/TaskTracker/tester2_todos.txt
