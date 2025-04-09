@@ -183,6 +183,8 @@ internal partial class userActions
 
         while(userSelectedAction != "Done")
         {            
+            AnsiConsole.Clear();
+            
             //display the full detail
             AnsiConsole.Write(trgEntry.AsSpecterTable());
 
