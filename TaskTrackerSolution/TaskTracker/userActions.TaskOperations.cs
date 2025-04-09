@@ -68,7 +68,8 @@ internal partial class userActions
         //find the entry
         if(!LoginProcessor.CurrentUser.TaskEntries.Any(x=>x.EntryId == entryId))
         {
-            AnsiConsole.WriteLine("Entry Id Not found");
+            AnsiConsole.WriteLine("Entry Id Not found.");
+            PressEnterToProceed();
             mainLandingPageProcessor.DisplayMainLandingPage();
         }
 
@@ -92,6 +93,9 @@ internal partial class userActions
             PressEnterToProceed();
             mainLandingPageProcessor.DisplayMainLandingPage();
         }
+
+        //clear the UI
+        AnsiConsole.Clear();
         
         //get the item
         var trgEntry = LoginProcessor.CurrentUser.TaskEntries.Where(x=>x.EntryId == entryId).First();
